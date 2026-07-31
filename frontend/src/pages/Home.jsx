@@ -2,17 +2,26 @@ import React from 'react';
 import { signInWithPopup } from 'firebase/auth';
 import api from '../../utils/axios';
 import { auth, googleProvider } from '../../utils/firebase';
+import { FcGoogle } from "react-icons/fc";
 
 function Home() {
 
   const handleLogin = async (token) => {
     try {
-      const { data } = await api.post("/auth/login", { token });
+      const { data } = await api.post("/api/auth/login", { token });
       console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
+  const handleLogout = async () => {
+  try {
+    const { data } = await api.post("/api/auth/logout")
+    console.log(data)
+  } catch (error) {
+    console.log(error)
+  }
+};
 
   const googleLogIn = async () => {
     const data = await signInWithPopup(auth, googleProvider);
@@ -34,8 +43,21 @@ function Home() {
          rounded-2xl p-7 flex flex-col gap-5'>
             <div className='flex flex-col gap-1'>
                 <h2 className='text-[17px] font-semibold text-slate-100 tracking-tight'>Welcome to NovaAI</h2>
-                <p className=''>Please login to continue using the app</p>
+                <p className='text-[13px] text-slate-500'>Please login to continue using the app</p>
+
             </div>
+            <button className='w-full flex items-center justify-center gap-3 py-[11px] rounded-xl
+                              text-sm font-medium text-black bg-white
+                              hover:bg-gray-100 active:bg-gray-200
+                              border border-gray-300 shadow-lg shadow-gray-200/50
+                              transition-all duration-150 cursor-pointer'onClick={googleLogIn}>
+              <FcGoogle size={15} className='text-white'/>
+              Continue With Google
+            </button>
+            <button onClick={handleLogout}
+                 className='w-full py-[11px] rounded-xl bg-red-500 text-white mt-2 cursor-pointer'>
+                 Logout
+                 </button>
 
         </div>
 

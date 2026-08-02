@@ -8,7 +8,7 @@ import getCurrentUser from './features/getCurrentUser.js'
 function App() {
 useEffect(()=>{
   const getUser=async () => {
-    await getCurrentUser()
+  const data = await getCurrentUser()
   }
   getUser()
 },[])

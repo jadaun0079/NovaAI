@@ -3,16 +3,18 @@ import { signInWithPopup } from 'firebase/auth';
 import api from '../../utils/axios';
 import { auth, googleProvider } from '../../utils/firebase';
 import { FcGoogle } from "react-icons/fc";
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserData } from '../redux/userSlice.js'
 function Home() {
 
   //const {userData,setUserData}=useState("Jatin Pratap SIngh")
   // setUserData()
-
+  const {userData}=useSelector(state=>state.user)
+  const dispatch=useDispatch()
   const handleLogin = async (token) => {
     try {
       const { data } = await api.post("/api/auth/login", { token });
-      console.log(data);
+      dispatch(setUserData(data))
     } catch (error) {
       console.log(error);
     }
@@ -39,8 +41,7 @@ function Home() {
 
   return (
     <div className='h-screen flex bg-[#0d0f14] text-white overflow-hidden'>
-       
-      <div className='fixed inset-0 z-50 flex items-center justify-center 
+       {!userData && <div className='fixed inset-0 z-50 flex items-center justify-center 
       bg-black/60 backdrop-blur'>
         <div className='w-[349px] bg-[#13151c] border border-white/[0.08]
          rounded-2xl p-7 flex flex-col gap-5'>
@@ -65,7 +66,8 @@ function Home() {
         </div>
 
 
-      </div>
+      </div>}
+      
     </div>
   );
 }

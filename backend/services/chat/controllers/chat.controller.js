@@ -2,40 +2,72 @@ import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
 
 
-export const crateConversation=async (req,res) => {
+export const crateConversation = async (req, res) => {
     try {
-        const userId=req.headers["x-user-id"]
-        console.log("userId",userId);
-        const conversation=await Conversation.create({
-            userId:userId
+        const userId = req.headers["x-user-id"]
+        console.log("userId", userId);
+        const conversation = await Conversation.create({
+            userId: userId
         })
         return res.status(200).json(conversation)
     } catch (error) {
-       return res.status(500).json({message:`Create Conversation error ${error}`})
+        return res.status(500).json({ message: `Create Conversation error ${error}` })
     }
 }
 
-export const getConversation=async (req,res) => {
+export const getConversation = async (req, res) => {
     try {
-        const userId=req.headers["x-user-id"]
-        console.log("userId",userId);
-        const conversation=await Conversation.find({
-            userId:userId
-        }).sort({updatedAt:-1})
+        const userId = req.headers["x-user-id"]
+        console.log("userId", userId);
+        const conversation = await Conversation.find({
+            userId: userId
+        })
 
         return res.status(200).json(conversation)
     } catch (error) {
-       return res.status(500).json({message:`get Conversation error ${error}`})
+        return res.status(500).json({ message: `get Conversation error ${error}` })
     }
 }
-export const saveMessage=async (req,res) => {
+
+export const updateConversation = async (req, res) => {
     try {
-        const {conversationId,role,content}=req.body
-        const Message=await Message.create({
-            
+        const {id,title}=req.body
+        const conversation = await Conversation.findByIdAndUpdate(id,{
+            title
         })
+        return res.status(200).json(conversation)
     } catch (error) {
-        
+        return res.status(500).json({ message: `Update Conversation error ${error}` })
     }
 }
+
+export const saveMessage = async (req, res) => {
+    try {
+        const { conversationId, role, content } = req.body
+        const message = await Message.create({
+            conversationId,
+            content,
+            role
+        })
+        return res.status(200).json(message)
+    } catch (error) {
+        return res.status(500).json({ message: `Save message error ${error}`})
+
+    }
+}
+
+export const getMessage = async (req, res) => {
+    try {
+        const { conversationId} = req.body
+        const messages = await Message.find({
+            conversationId:req.params.conversationId
+        }).sort({ createddAt: -1 })
+        return res.status(200).json(messages)
+    } catch (error) {
+        return res.status(500).json({ message: `get message error ${error}`})
+
+    }
+}
+
+
 

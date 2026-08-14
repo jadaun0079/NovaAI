@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const conversationSchema=new mongoose.Schema({
-    tittle:{
+    title:{
         type:String,
         default:"New Chat"
     },
@@ -11,5 +11,6 @@ const conversationSchema=new mongoose.Schema({
 },{
     timestamps:true
 })
-const Conversation=mongoose.model("Converstion",conversationSchema)
-export default Conversation;
+
+const Conversation=mongoose.model("Conversation",conversationSchema)
+export default Conversation

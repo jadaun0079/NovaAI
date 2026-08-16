@@ -14,7 +14,21 @@ const firebaseConfig = {
   appId: "1:40670148098:web:1dad8338fa49022c17591b"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig)
-export const auth=getAuth(app)
-export const googleProvider=new GoogleAuthProvider()
+// Initialize Firebase safely
+let app;
+let auth = null;
+let googleProvider = null;
+
+try {
+  if (!firebaseConfig.apiKey) {
+    console.warn("Warning: VITE_FIREBASE_API_KEY is not defined. Firebase features will not work.");
+  } else {
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    googleProvider = new GoogleAuthProvider();
+  }
+} catch (error) {
+  console.error("Firebase initialization failed:", error);
+}
+
+export { auth, googleProvider };

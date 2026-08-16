@@ -25,11 +25,20 @@ function Home() {
     }
 
     const googleLogin = async () => {
-        const data = await signInWithPopup(auth, googleProvider)
-        const token = await data.user.getIdToken()
-        console.log(token)
-        await handleLogin(token)
-        console.log(data)
+        if (!auth) {
+            alert("Configuration Error: Firebase API Key (VITE_FIREBASE_API_KEY) is missing. Please set this environment variable in your deployment settings.");
+            return;
+        }
+        try {
+            const data = await signInWithPopup(auth, googleProvider)
+            const token = await data.user.getIdToken()
+            console.log(token)
+            await handleLogin(token)
+            console.log(data)
+        } catch (error) {
+            console.error("Login failed:", error);
+            alert("Google Sign-In failed: " + error.message);
+        }
     }
 
     return (

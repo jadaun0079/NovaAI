@@ -71,7 +71,7 @@ function SideBar() {
 
                 {/* Conversation dots */}
                 <div className='flex-1 overflow-y-auto px-2 pb-2 space-y-1 mt-2' style={{ scrollbarWidth: 'none' }}>
-                    {conversations.map((conv) => {
+                    {Array.isArray(conversations) && conversations.map((conv) => {
                         const isActive = selectedConversation?._id === conv?._id
                         return (
                             <button
@@ -257,12 +257,12 @@ function SideBar() {
                 {/* ── Section label ── */}
                 <div className='px-4 pt-3 pb-1.5 text-[10px] font-semibold uppercase tracking-widest shrink-0'
                     style={{ color: 'rgba(255,255,255,0.2)' }}>
-                    {conversations.length === 0 ? 'No conversations yet' : 'Recents'}
+                    {(!Array.isArray(conversations) || conversations.length === 0) ? 'No conversations yet' : 'Recents'}
                 </div>
 
                 {/* ── Conversation list ── */}
                 <div className='flex-1 overflow-y-auto px-2.5 pb-2 space-y-0.5'>
-                    {conversations.map((conv, i) => {
+                    {Array.isArray(conversations) && conversations.map((conv, i) => {
                         const isActive = selectedConversation?._id === conv?._id
                         return (
                             <motion.div

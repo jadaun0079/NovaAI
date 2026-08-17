@@ -5,11 +5,14 @@ const getCurrentUser=async () => {
     
     try {
         const {data}=await api.get("/api/me")
-        return data
+        if (data && typeof data === 'object' && !Array.isArray(data) && !data.message) {
+            return data
+        }
+        return null
     } catch (error) {
         console.log(error)
         return null
     }
 }
 
-export default getCurrentUser
+export default getCurrentUser

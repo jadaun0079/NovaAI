@@ -159,7 +159,7 @@ function Artifact() {
                                 background: 'rgba(10,14,20,0.8)',
                                 scrollbarWidth: 'none',
                             }}>
-                            {artifacts[0]?.files?.map((f, index) => (
+                            {Array.isArray(artifacts[0]?.files) && artifacts[0]?.files.map((f, index) => (
                                 <button
                                     key={index}
                                     onClick={() => setActiveFile(index)}

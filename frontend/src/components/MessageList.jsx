@@ -127,7 +127,7 @@ function MessageList() {
             ) : (
                 /* ── Message list ── */
                 <div className='space-y-6 max-w-4xl mx-auto'>
-                    {messages?.map((msg, i) => (
+                    {Array.isArray(messages) && messages.map((msg, i) => (
                         <motion.div
                             key={msg?._id || i}
                             initial={{ opacity: 0, y: 10, scale: 0.98 }}
